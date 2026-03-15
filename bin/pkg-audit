@@ -15,7 +15,16 @@ if (!$homeDir) {
 $cacheDir = $homeDir . DIRECTORY_SEPARATOR . '.cache' . DIRECTORY_SEPARATOR . 'pkg-audit';
 $cache = new PekLaiho\PkgAudit\FileCache($cacheDir);
 $packageManager = new PekLaiho\PkgAudit\Pacman($cache);
+$parser = new PekLaiho\PkgAudit\PkgFileParser();
+$auditor = new PekLaiho\PkgAudit\Auditor();
 
+$requested = $parser->parse(...array_slice($argv, 1));
 $installed = $packageManager->getFullPackageInfo();
 
+PekLaiho\PkgAudit\Utils::outln('Requested packages: ' . count($requested));
 PekLaiho\PkgAudit\Utils::outln('Installed packages: ' . count($installed));
+
+$result = $auditor->audit($requested, $installed);
+
+PekLaiho\PkgAudit\Utils::outln('Missing packages: ' . implode(' ', $result->getMissingPackages()));
+PekLaiho\PkgAudit\Utils::outln('Extra packages: ' . implode(' ', $result->getExtraPackages()));

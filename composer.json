@@ -1,0 +1,29 @@
+{
+    "name": "peklaiho/pkg-audit",
+    "description": "Tool for auditing installed packages on a Linux system",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pekka Laiho",
+            "email": "pekka.i.laiho@gmail.com",
+            "homepage": "https://laihoconsulting.com/"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/peklaiho/pkg-audit"
+    },
+    "require": {
+
+    },
+    "require-dev": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "PekLaiho\\PkgAudit\\": "src/"
+        }
+    },
+    "bin": [
+        "bin/pkg-audit"
+    ]
+}

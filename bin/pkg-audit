@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+require(__DIR__ . '/../vendor/autoload.php');
+
+if ($argc < 2) {
+    echo "Usage: pkg-audit <pkg-file-1> <pkg-file-2> ...\n";
+    exit(1);
+}
+
+$homeDir = getenv('HOME');
+if (!$homeDir) {
+    PekLaiho\PkgAudit\Utils::error('Unable to read user home directory from environment');
+}
+
+$cacheDir = $homeDir . DIRECTORY_SEPARATOR . '.cache' . DIRECTORY_SEPARATOR . 'pkg-audit';
+$cache = new PekLaiho\PkgAudit\FileCache($cacheDir);
+$packageManager = new PekLaiho\PkgAudit\Pacman($cache);
+
+$installed = $packageManager->getFullPackageInfo();
+
+PekLaiho\PkgAudit\Utils::outln('Installed packages: ' . count($installed));
